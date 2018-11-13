@@ -28,12 +28,11 @@ class PluginAttachments_HookAttachments extends Hook
         $plugin_config_key = $this::ConfigKey;
 
         foreach ($this::HooksArray as $hook => $callback) {
-
             $this->AddHook(
                 $hook,
                 $callback,
                 __CLASS__,
-                Config::Get("plugun.{$plugin_config_key}.hook_priority.{$hook}") ?? 1
+                Config::Get("plugin.{$plugin_config_key}.hook_priority.{$hook}") ?? 1
             );
         }
     }
