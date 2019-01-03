@@ -84,15 +84,26 @@ class PluginAttachments_ActionAttachments extends ActionPlugin
                 $sFileName = $_FILES['newfile']['name'];
                 $sTmpName = $_FILES['newfile']['tmp_name'];
                 $iFileSize = $_FILES['newfile']['size'];
-                $sExtension = strtolower(array_pop(explode(".", $sFileName)));
+                
+                $sFileName_parts = explode(".", $sFileName); // only variables should be passed by reference in PHP7
+                $sExtension = strtolower(array_pop($sFileName_parts));
+                
                 $iUserId = $this->oUserCurrent->getId();
 
-                if ($iId = $this->PluginAttachments_Attachments_AttachFile($sTmpName, $sFileName, $iFileSize, $sExtension, $iTopicId, $iFormId, $iUserId)) {
+                $iId = $this->PluginAttachments_Attachments_AttachFile($sTmpName, $sFileName, $iFileSize, $sExtension, $iTopicId, $iFormId, $iUserId);
+                if ($iId) 
+                {
                     $sResult = 'success';
-                } else $sResult = $this->ShowErrors();
+                } else {
+                    $sResult = $this->ShowErrors();
+                }
 
-            } else $sResult = $this->ShowErrors();
-        } else print $this->Lang_Get('plugin.attachments.upload_universal_answer');
+            } else {
+                $sResult = $this->ShowErrors();
+            }
+        } else {
+            print $this->Lang_Get('plugin.attachments.upload_universal_answer');
+        }
         $this->SetDebug($sResult);
 
         $this->Viewer_Assign('Attachments_Last_Uploaded_File_ID', $iId);
@@ -161,8 +172,7 @@ class PluginAttachments_ActionAttachments extends ActionPlugin
      */
     protected function CheckFile()
     {
-
-        if (!$_FILES['newfile']['error'] == 0) {
+        if ($_FILES['newfile']['error'] != 0) {
             switch ($_FILES['newfile']['error']) {
                 case UPLOAD_ERR_INI_SIZE:
                     {
@@ -209,17 +219,25 @@ class PluginAttachments_ActionAttachments extends ActionPlugin
             }
             return false;
         }
-
+        
+        $_max_files_per_topic = Config::Get('plugin.attachments.max_files_per_topic');
+        
         $iTopicId = getRequest('topic_id');
+        
         if (!empty($iTopicId)) {
             $aFiles = $this->PluginAttachments_Attachments_GetAttachedFilesByTopicId($iTopicId);
-            if (count($aFiles) >= Config::Get('plugin.attachments.max_files_per_topic')) {
+            
+            if (is_countable($aFiles) && (count($aFiles) >= $_max_files_per_topic)) {
                 $this->SetError($this->Lang_Get('plugin.attachments.upload_error_topic_if_full'), 1, 1);
                 return false;
             }
         }
+        
+        // unlinked attachments 
+        $uFiles = $this->PluginAttachments_Attachments_GetUnlinkedAttachmentsByUserId($this->oUserCurrent->getId());
+        $_max_unattached_files_per_user = Config::Get('plugin.attachments.max_unattached_files_per_user');
 
-        if (count($this->PluginAttachments_Attachments_GetUnlinkedAttachmentsByUserId($this->oUserCurrent->getId())) >= Config::Get('plugin.attachments.max_unattached_files_per_user')) {
+        if (is_countable($uFiles) && (count($uFiles) >= $_max_unattached_files_per_user)) {
             $this->SetError($this->Lang_Get('plugin.attachments.upload_unattached_limit'), 1, 1);
             return false;
         }
@@ -227,7 +245,7 @@ class PluginAttachments_ActionAttachments extends ActionPlugin
         $iFormId = getRequest('form_id');
         if (!empty($iFormId)) {
             $aFiles = $this->PluginAttachments_Attachments_GetAttachedFilesByFormId($iFormId);
-            if (count($aFiles) >= Config::Get('plugin.attachments.max_files_per_topic')) {
+            if (is_countable($aFiles) && (count($aFiles) >= Config::Get('plugin.attachments.max_files_per_topic'))) {
                 $this->SetError($this->Lang_Get('plugin.attachments.upload_error_topic_if_full'), 1, 1);
                 return false;
             }
@@ -257,7 +275,7 @@ class PluginAttachments_ActionAttachments extends ActionPlugin
         $sResult = '';
         foreach ($aErrors as $sError) {
             if ($iToScreen == 1) print $sError . "\n";
-            $sResult = $sResult . $sError . ", ";
+            $sResult .= $sError . ", ";
         }
 
         return $sResult;
@@ -269,9 +287,13 @@ class PluginAttachments_ActionAttachments extends ActionPlugin
     protected function EventGet()
     {
         if (!Config::Get('plugin.attachments.ShowAttachedFiles')) {
-            if (!$this->oUserCurrent) return Router::Action('error');
+            if (!$this->oUserCurrent) {
+                return Router::Action('error');
+            }
             else {
-                if (!$this->oUserCurrent->isAdministrator()) return Router::Action('error');
+                if (!$this->oUserCurrent->isAdministrator()) {
+                    return Router::Action('error');
+                }
             }
         }
 
@@ -282,7 +304,10 @@ class PluginAttachments_ActionAttachments extends ActionPlugin
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . $sFilename . '"');
             print file_get_contents($sFullPath);
-        } else print $this->Lang_Get('plugin.attachments.upload_universal_answer');
+        } else {
+            print $this->Lang_Get('plugin.attachments.upload_universal_answer');
+        }
+        
         $this->SetTemplateAction('null');
     }
 

@@ -18,19 +18,19 @@ return array(
     'element_title_download_file' => 'Скачать файл',
     'element_title_delete_file' => 'Удалить файл',
     'file_was_deleted' => 'Файл удален',
-    'not_attached_files' => 'Не прикрепленные файлы:',
-    'not_attached_files_title' => 'Файлы, которые были загружены вами в новый топик, но он не был сохранен (опубликован)',
-    'attach_file_to_new_topic' => 'Привязать файл к этому топику',
-    'cant_attach_file_to_saved_topic' => 'Привязать файл можно только к новому топику. К существующему - никак',
-    'there_is_no_unattached_files' => 'Нету непривязанных файлов.',
+    'not_attached_files' => 'Неприкрепленные файлы:',
+    'not_attached_files_title' => 'Файлы, загруженные вами в публикацию, которая не была сохранена (опубликована)',
+    'attach_file_to_new_topic' => 'Привязать файл к этой публикации',
+    'cant_attach_file_to_saved_topic' => 'Привязать файл можно только к новой публикации. К существующей - никак',
+    'there_is_no_unattached_files' => 'Нет непривязанных файлов.',
 
     // вывод списка топиков
     'topic_files_attached' => 'Прикреплено ',
     'topic_N_files' => ' файлов.',
-    'files_in_topics' => 'Файлы в топике: ',
+    'files_in_topics' => 'Прикрепленные файлы: ',
 
     // общие ошибки (клиентская часть)
-    'sidebar_detection_general_error' => 'Ошибка в вёрстке шаблона для сайдбара плагина Attachments. Сохраняйте класы обьектов для корректной работы',
+    'sidebar_detection_general_error' => 'Ошибка в вёрстке шаблона для сайдбара плагина Attachments. Сохраняйте классы обьектов для корректной работы',
     'wrong_parameter_file_form_place' => 'Неверный параметр положения формы для загрузки файлов в конфиге для плагина Attachments',
 
     // ошибки обработки серверной части
@@ -40,8 +40,8 @@ return array(
     'upload_universal_answer' => 'Go away!',
     'upload_error_creating_subfolder' => 'Ошибка создания папки файла для пользователя. Проверьте права',
     'upload_error_moving_to_subfolder' => 'Ошибка перемещения файла',
-    'upload_error_topic_if_full' => 'Достигнут лимит количества файлов на один топик',
-    'upload_unattached_limit' => 'Слишком много неприсоединенных файлов. Удалите файлы из списка справа или присоедините к текущему топику',
+    'upload_error_topic_if_full' => 'Достигнут лимит количества файлов на одну публикацию',
+    'upload_unattached_limit' => 'Слишком много неприсоединенных файлов. Удалите файлы из списка справа или присоедините к текущей публикации',
 
     'upload_err_ini_size' => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
     'upload_err_form_size' => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',

@@ -21,7 +21,8 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
      */
     public function AttachFile($sDestFullPath, $sName, $iFileSize, $sExtension, $iTopicId, $iFormId, $iUserId)
     {
-        $sql = "INSERT INTO  `attachments` (
+        $sql = "
+            INSERT INTO `attachments` (
 			`attachment_id` ,
 			`topic_id` ,
 			`user_id` ,
@@ -43,11 +44,10 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
     public function GetAttachedFilesByTopicId($iTopicId)
     {
         $sql = "SELECT * FROM attachments WHERE topic_id = ?d AND topic_id <> ''";
-        $aResult = array();
         if ($aRows = $this->oDb->select($sql, $iTopicId)) {
-            $aResult = $aRows;
+            return $aRows;
         }
-        return $aResult;
+        return array();
     }
 
     /**
@@ -59,7 +59,8 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
         $sql = "SELECT * FROM attachments WHERE attachment_form_id = ? AND attachment_form_id <> ''";
         if ($aRows = $this->oDb->select($sql, $iFormId)) {
             return $aRows;
-        } else return false;
+        }
+        return false;
     }
 
     /**
@@ -72,7 +73,8 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
         $sql = "SELECT * FROM attachments WHERE topic_id = ?d AND attachment_extension = ?";
         if ($aRows = $this->oDb->select($sql, $iTopicId, $sExtension)) {
             return $aRows;
-        } else return array();
+        } 
+        return array();
     }
 
     /**
@@ -84,8 +86,8 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
         $sql = "SELECT attachment_url FROM attachments WHERE attachments.attachment_id = ?d";
         if ($aRows = $this->oDb->select($sql, $iFileId)) {
             return $aRows;
-        } else return false;
-
+        }
+        return false;
     }
 
     /**
@@ -97,7 +99,8 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
         $sql = "SELECT attachment_name FROM attachments WHERE attachments.attachment_id = ?d";
         if ($aRows = $this->oDb->select($sql, $iFileId)) {
             return $aRows;
-        } else return false;
+        }
+        return false;
 
     }
 
@@ -110,7 +113,8 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
         $sql = "SELECT * FROM attachments WHERE attachments.attachment_id = ?d";
         if ($aRows = $this->oDb->select($sql, $iFileId)) {
             return $aRows;
-        } else return false;
+        } 
+        return false;
     }
 
     /**
@@ -130,7 +134,7 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
      */
     public function LinkFormIdToTopicId($iFormId, $iTopicId)
     {
-        $sql = "UPDATE  attachments SET `topic_id` = ?d, `attachment_form_id` = '' WHERE  attachment_form_id = ?";
+        $sql = "UPDATE attachments SET `topic_id` = ?d, `attachment_form_id` = '' WHERE  attachment_form_id = ?";
         return $this->oDb->query($sql, $iTopicId, $iFormId);
     }
 
@@ -141,7 +145,7 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
      */
     public function LinkFilesToUserTopic($iTopicId, $iUserId)
     {
-        $sql = "UPDATE  attachments SET `topic_id` = ?d, `attachment_form_id` = '' WHERE  attachment_form_id <> '' AND user_id = ?d";
+        $sql = "UPDATE attachments SET `topic_id` = ?d, `attachment_form_id` = '' WHERE  attachment_form_id <> '' AND user_id = ?d";
         return $this->oDb->query($sql, $iTopicId, $iUserId);
     }
 
@@ -154,7 +158,8 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
         $sql = "SELECT * FROM attachments WHERE user_id = ?d AND topic_id = 0";
         if ($aRows = $this->oDb->select($sql, $iUserId)) {
             return $aRows;
-        } else return false;
+        } 
+        return false;
     }
 
     /**
@@ -164,7 +169,7 @@ class PluginAttachments_ModuleAttachments_MapperAttachments extends Mapper
      */
     public function LinkFileToFormId($iFileId, $iFormId)
     {
-        $sql = "UPDATE  attachments SET `attachment_form_id` = ? WHERE attachment_id = ?d";
+        $sql = "UPDATE attachments SET `attachment_form_id` = ? WHERE attachment_id = ?d";
         return $this->oDb->query($sql, $iFormId, $iFileId);
     }
 }

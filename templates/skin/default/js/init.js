@@ -1,8 +1,4 @@
-//
 //  Attachments plugin
-//  (P) Rafrica.net team, 2010 - 2011
-//  http://we.rafrica.net/
-//
 
 var ls = ls || {};
 
@@ -29,25 +25,28 @@ ls.attachments = (function ($) {
             case 'jpe':
             case 'tiff':
             case 'psd':
-                ReturnValue = "<img class=\"SmallIcon\" src=\"/plugins/attachments/templates/skin/default/images/FileTypes/image.png\">";
+                ReturnValue = '<img class="SmallIcon" src="/plugins/attachments/templates/skin/default/images/FileTypes/image.png">';
                 break;
             case 'mp3':
             case 'flac':
             case 'wav':
             case 'ogg':
-                ReturnValue = "<img class=\"SmallIcon\" src=\"/plugins/attachments/templates/skin/default/images/FileTypes/music.png\">";
+                ReturnValue = '<img class="SmallIcon" src="/plugins/attachments/templates/skin/default/images/FileTypes/music.png">';
                 break;
             case 'torrent':
-                ReturnValue = "<img class=\"SmallIcon\" src=\"/plugins/attachments/templates/skin/default/images/FileTypes/torrent.png\">";
+                ReturnValue = '<img class="SmallIcon" src="/plugins/attachments/templates/skin/default/images/FileTypes/torrent.png">';
                 break;
             case 'zip':
             case 'rar':
             case 'tar':
             case 'gz':
-                ReturnValue = "<img class=\"SmallIcon\" src=\"/plugins/attachments/templates/skin/default/images/FileTypes/archive.gif\">";
+                ReturnValue = '<img class="SmallIcon" src="/plugins/attachments/templates/skin/default/images/FileTypes/archive.gif">';
+                break;
+            case 'pdf':
+                ReturnValue = '<img class="SmallIcon" src="/plugins/attachments/templates/skin/default/images/FileTypes/pdf16x16.png">';
                 break;
             default:
-                ReturnValue = "<img class=\"SmallIcon\" src=\"/plugins/attachments/templates/skin/default/images/FileTypes/file.png\">";
+                ReturnValue = '<img class="SmallIcon" src="/plugins/attachments/templates/skin/default/images/FileTypes/file.png">';
         }
         return ReturnValue;
     }
@@ -247,11 +246,6 @@ ls.attachments = (function ($) {
     return this;
 
 }).call(ls.attachments || {}, jQuery);
-
-//
-// (P) Rafrica.net Team, 2010 - 2011
-// http://we.rafrica.net/
-//
 
 function GetRandomValue(LowValue, HighValue) {
     LowValue = parseInt(LowValue);
