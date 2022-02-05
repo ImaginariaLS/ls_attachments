@@ -46,13 +46,23 @@
     }
     jQuery(document).ready(function ($) {
         var Attachments_IframeName = 'att_upload_target';
-        var FileUploadCode = '<form id="att_file_upload_form" method="post" enctype="multipart/form-data" action="' + Attachments_FormUploadAction + '" target="' + Attachments_IframeName + '">' + Attachments_AddFileMsg +
+        /*var FileUploadCode = '<form id="att_file_upload_form" method="post" enctype="multipart/form-data" action="' + Attachments_FormUploadAction + '" target="' + Attachments_IframeName + '">' + Attachments_AddFileMsg +
             '<input name="newfile" size="15" type="file" onchange="ls.attachments.CheckUpFileType (this);" id="att_newfilefield">' +
             '<input name="topic_id" type="hidden" value="' + Attachments_CurrentTopicID + '">' +
             '<input name="form_id" type="hidden" value="' + Attachments_NewFormID + '">' +
             '<div id="AttFileOperationInfoBox"></div><div id="AttFileListBox"></div>' +
             '<iframe id="att_upload_frame" name="' + Attachments_IframeName + '" src=""></iframe>' +
-            '</form>';
+            '</form>';*/
+
+        var FileUploadCode = `
+        <form id="att_file_upload_form" method="post" enctype="multipart/form-data" action="${ Attachments_FormUploadAction }" target="${ Attachments_IframeName }">${ Attachments_AddFileMsg }
+        <input name="newfile" size="15" type="file" onchange="ls.attachments.CheckUpFileType (this);" id="att_newfilefield">
+        <input name="topic_id" type="hidden" value="${ Attachments_CurrentTopicID }">
+        <input name="form_id" type="hidden" value="${ Attachments_NewFormID }">
+        <div id="AttFileOperationInfoBox"></div><div id="AttFileListBox"></div>
+        <iframe id="att_upload_frame" name="${ Attachments_IframeName }" src=""></iframe>
+        </form>`;
+
 
         var PlaceFindHelper = $('input#topic_title').parent(); // p
 
@@ -83,6 +93,14 @@
         ls.attachments.ShowInfoMsg(null);
         ls.attachments.RefreshFilelist();
     });
+
+    function Attachments_CheckUpFileUploadFormPlace() {
+        if ((Attachments_FileFormPlace == 'sidebar') || (ls.attachments.IsThisIE())) {
+            $('#Attachments_Sidebar_Place_Parent_ID').css('display', 'block');
+        }
+    }
+
+    Attachments_CheckUpFileUploadFormPlace();
 
     {/literal}
     // main form update init

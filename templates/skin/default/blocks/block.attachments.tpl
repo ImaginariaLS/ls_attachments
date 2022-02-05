@@ -5,13 +5,13 @@
 
 <script>
     {literal}
-    function Attachments_CheckUpFileUploadFormPlace() {
+    /*function Attachments_CheckUpFileUploadFormPlace() {
         if ((Attachments_FileFormPlace == 'sidebar') || (ls.attachments.IsThisIE())) {
             $('#Attachments_Sidebar_Place_Parent_ID').css('display', 'block');
         }
     }
 
-    Attachments_CheckUpFileUploadFormPlace();
+    Attachments_CheckUpFileUploadFormPlace();*/
     {/literal}
 </script>
 <!-- /Attachments plugin -->

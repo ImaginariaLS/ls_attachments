@@ -10,12 +10,12 @@ ls.attachments = (function ($) {
     // --- File types: Images of files ---
 
     this.GetImgForFileType = function (TFileName) {
-        TFileType = '';
-        DotPos = TFileName.lastIndexOf(".");
+        let TFileType = '';
+        let DotPos = TFileName.lastIndexOf(".");
         if (DotPos != -1) TFileType = TFileName.substr(DotPos + 1);
         TFileType = TFileType.toLowerCase();
 
-        ReturnValue = '';
+        let ReturnValue = '';
         switch (TFileType) {
             case 'jpg':
             case 'png':
@@ -54,7 +54,7 @@ ls.attachments = (function ($) {
     // ---
 
     Array.prototype.RemoveFileByID = function (file_id) {
-        for (i = 0; i < this.length; i++) {
+        for (let i = 0; i < this.length; i++) {
             if (file_id == this [i]['file_id']) {
                 this.splice(i, 1);
                 --i;
@@ -72,7 +72,7 @@ ls.attachments = (function ($) {
 
         if ($.trim(Attachments_PosibleFileExtensions) != '') {
             // var PosFileExts = /\.txt|\.mp3|\.zip/i;
-            var PosFileExts = '\\.' + Attachments_PosibleFileExtensions.replace(new RegExp(" ", 'g'), "|\\.");
+            let PosFileExts = '\\.' + Attachments_PosibleFileExtensions.replace(new RegExp(" ", 'g'), "|\\.");
 
             if (this.CurrentFileName.search(new RegExp(PosFileExts, 'gi')) == -1) {
                 alert(Attachments_Not_Allowed_File_Types + Attachments_PosibleFileExtensions);
